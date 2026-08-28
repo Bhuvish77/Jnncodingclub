@@ -1,0 +1,244 @@
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.site-background {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+
+  background-color: #020708;
+
+  background-image:
+    /* Green glow - left side 
+    radial-gradient(
+      circle at 5% 25%,
+      rgba(0, 255, 140, 0.28) 0%,
+      rgba(0, 190, 120, 0.12) 18%,
+      transparent 42%
+    ),
+
+    Cyan glow - bottom right 
+    radial-gradient(
+      circle at 92% 85%,
+      rgba(0, 210, 255, 0.25) 0%,
+      rgba(0, 170, 200, 0.12) 20%,
+      transparent 45%
+    ),
+
+    /* Small green glow - upper middle 
+    radial-gradient(
+      circle at 48% 0%,
+      rgba(0, 255, 140, 0.10) 0%,
+      transparent 25%
+    ),
+
+    /* Vertical grid 
+    linear-gradient(
+      to right,
+      rgba(70, 120, 120, 0.10) 1px,
+      transparent 1px
+    ),
+
+    /* Horizontal grid 
+    linear-gradient(
+      to bottom,
+      rgba(70, 120, 120, 0.10) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    auto,
+    auto,
+    auto,
+    56px 56px,
+    56px 56px;
+
+  background-attachment: fixed;
+}*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* =========================================================
+   MAIN WEBSITE BACKGROUND
+   ========================================================= */
+.site-background {
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+
+  background-color: #020708;
+
+  background-image:
+    /* Green glow - left side */
+    radial-gradient(
+      circle at 5% 25%,
+      rgba(0, 255, 140, 0.28) 0%,
+      rgba(0, 190, 120, 0.12) 18%,
+      transparent 42%
+    ),
+
+    /* Cyan glow - bottom right */
+    radial-gradient(
+      circle at 92% 85%,
+      rgba(0, 210, 255, 0.25) 0%,
+      rgba(0, 170, 200, 0.12) 20%,
+      transparent 45%
+    ),
+
+    /* Small green glow - upper middle */
+    radial-gradient(
+      circle at 48% 0%,
+      rgba(0, 255, 140, 0.10) 0%,
+      transparent 25%
+    );
+
+  background-attachment: fixed;
+
+  isolation: isolate;
+}
+
+
+/* =========================================================
+   ANIMATED BACKGROUND LAYER
+   ========================================================= */
+.animated-background {
+  position: fixed;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 0;
+
+  pointer-events: none;
+
+  opacity: 0.75;
+}
+
+/* =========================================================
+   SECONDARY CURSOR LIGHT
+   ========================================================= */
+
+.cursor-glow::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle 100px at var(--mouse-x) var(--mouse-y),
+      rgba(0, 255, 170, 0.12),
+      transparent 70%
+    );
+
+  filter: blur(12px);
+
+  mix-blend-mode: screen;
+}
+
+
+/* Green ambient glow */
+
+.ambient-glow-one {
+  background: #00ff9d;
+
+  left: -200px;
+  top: 20%;
+
+  animation:
+    ambientMoveOne 18s ease-in-out infinite alternate;
+}
+
+
+/* Cyan ambient glow */
+
+.ambient-glow-two {
+  background: #00d9ff;
+
+  right: -200px;
+  bottom: 5%;
+
+  animation:
+    ambientMoveTwo 22s ease-in-out infinite alternate;
+}
+
+
+/* =========================================================
+   AMBIENT ANIMATIONS
+   ========================================================= */
+
+@keyframes ambientMoveOne {
+
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(120px, -80px, 0) scale(1.15);
+  }
+
+  100% {
+    transform: translate3d(220px, 60px, 0) scale(0.95);
+  }
+
+}
+
+
+@keyframes ambientMoveTwo {
+
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-100px, -100px, 0) scale(1.2);
+  }
+
+  100% {
+    transform: translate3d(-180px, 40px, 0) scale(0.9);
+  }
+
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ambient-glow {
+    animation: none;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+  .cursor-glow {
+    display: none;
+  }
+
+  .ambient-glow {
+    width: 350px;
+    height: 350px;
+
+    filter: blur(80px);
+
+    opacity: 0.05;
+  }
+
+}
