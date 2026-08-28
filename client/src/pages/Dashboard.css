@@ -1,0 +1,1064 @@
+/* =========================================================
+   J.N.N CODING CLUB — DASHBOARD
+   Clean LeetCode-inspired student dashboard
+========================================================= */
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.dashboard-page {
+  min-height: calc(100vh - 70px);
+  width: 100%;
+
+  padding: 42px 24px 70px;
+
+  color: #f8fafc;
+}
+
+.dashboard-container {
+  width: 100%;
+  max-width: 1180px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-bottom: 30px;
+}
+
+.dashboard-header-content {
+  min-width: 0;
+}
+
+.dashboard-greeting {
+  margin: 0 0 8px;
+
+  color: #64748b;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.dashboard-title {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 800;
+
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.dashboard-title span {
+  color: #34d399;
+}
+
+.dashboard-subtitle {
+  margin: 9px 0 0;
+
+  color: #94a3b8;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   STREAK
+========================================================= */
+
+.dashboard-streak {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  flex-shrink: 0;
+
+  padding: 13px 17px;
+
+  border: 1px solid rgba(52, 211, 153, 0.18);
+  border-radius: 13px;
+
+  background: rgba(15, 23, 42, 0.55);
+
+  backdrop-filter: blur(12px);
+}
+
+.streak-icon {
+  width: 39px;
+  height: 39px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 10px;
+
+  background: rgba(251, 146, 60, 0.1);
+
+  font-size: 18px;
+}
+
+.streak-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.streak-number {
+  color: #f8fafc;
+
+  font-size: 19px;
+  font-weight: 800;
+
+  line-height: 1.1;
+}
+
+.streak-label {
+  margin-top: 3px;
+
+  color: #64748b;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.dashboard-stats {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 13px;
+
+  margin-bottom: 18px;
+}
+
+.stat-card {
+  position: relative;
+
+  min-height: 105px;
+
+  padding: 19px;
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 14px;
+
+  background: rgba(15, 23, 42, 0.55);
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(52, 211, 153, 0.25);
+
+  background: rgba(15, 23, 42, 0.68);
+}
+
+.stat-card-label {
+  display: block;
+
+  margin-bottom: 9px;
+
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.stat-card-value {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 27px;
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+.stat-card-meta {
+  display: block;
+
+  margin-top: 8px;
+
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.stat-card-meta.positive {
+  color: #34d399;
+}
+
+
+/* =========================================================
+   MAIN DASHBOARD GRID
+========================================================= */
+
+.dashboard-main {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.7fr) minmax(290px, 0.8fr);
+
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   COMMON CARD
+========================================================= */
+
+.dashboard-card {
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
+
+  background: rgba(15, 23, 42, 0.55);
+
+  backdrop-filter: blur(13px);
+}
+
+.dashboard-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+}
+
+.dashboard-card-label {
+  margin: 0 0 5px;
+
+  color: #64748b;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.dashboard-card-title {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 17px;
+  font-weight: 750;
+}
+
+
+/* =========================================================
+   CODING ACTIVITY
+========================================================= */
+
+.activity-card {
+  padding: 22px;
+}
+
+.activity-summary {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.activity-summary strong {
+  color: #e2e8f0;
+
+  font-size: 12px;
+}
+
+.activity-summary span {
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+
+/* Heatmap */
+
+.activity-heatmap-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  padding-bottom: 5px;
+}
+
+.activity-heatmap {
+  display: grid;
+
+  grid-template-columns: repeat(26, minmax(10px, 1fr));
+
+  gap: 4px;
+
+  min-width: 620px;
+}
+
+.activity-cell {
+  width: 100%;
+  aspect-ratio: 1;
+
+  border-radius: 3px;
+
+  background: rgba(148, 163, 184, 0.07);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.activity-cell:hover {
+  transform: scale(1.3);
+
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.25);
+}
+
+.activity-cell.level-0 {
+  background: rgba(148, 163, 184, 0.07);
+}
+
+.activity-cell.level-1 {
+  background: rgba(52, 211, 153, 0.16);
+}
+
+.activity-cell.level-2 {
+  background: rgba(52, 211, 153, 0.32);
+}
+
+.activity-cell.level-3 {
+  background: rgba(52, 211, 153, 0.55);
+}
+
+.activity-cell.level-4 {
+  background: #34d399;
+}
+
+
+/* Heatmap footer */
+
+.activity-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 13px;
+}
+
+.activity-total {
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.activity-legend {
+  display: flex;
+  align-items: center;
+
+  gap: 4px;
+
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.activity-legend-cell {
+  width: 9px;
+  height: 9px;
+
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.dashboard-side {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   TODAY'S GOAL
+========================================================= */
+
+.daily-goal {
+  padding: 22px;
+
+  border: 1px solid rgba(52, 211, 153, 0.17);
+  border-radius: 16px;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(52, 211, 153, 0.09),
+      transparent 45%
+    ),
+    rgba(15, 23, 42, 0.55);
+
+  backdrop-filter: blur(13px);
+}
+
+.goal-count {
+  margin: 5px 0 0;
+
+  color: #f8fafc;
+
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.goal-count span {
+  color: #64748b;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+
+/* Goal progress */
+
+.goal-progress-wrapper {
+  margin-top: 17px;
+}
+
+.goal-progress-track {
+  width: 100%;
+  height: 6px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: rgba(148, 163, 184, 0.09);
+}
+
+.goal-progress-bar {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #34d399;
+
+  transition: width 0.4s ease;
+}
+
+.goal-progress-text {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 7px;
+
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+
+/* Goal problems */
+
+.goal-problems {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.goal-problem {
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+.goal-problem-icon {
+  width: 17px;
+  height: 17px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 50%;
+
+  color: #64748b;
+
+  font-size: 8px;
+}
+
+.goal-problem.completed {
+  color: #64748b;
+
+  text-decoration: line-through;
+}
+
+.goal-problem.completed .goal-problem-icon {
+  border-color: rgba(52, 211, 153, 0.25);
+
+  color: #34d399;
+
+  background: rgba(52, 211, 153, 0.08);
+}
+
+.dashboard-action-button {
+  width: 100%;
+
+  margin-top: 17px;
+
+  padding: 10px 13px;
+
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  border-radius: 8px;
+
+  color: #34d399;
+
+  background: rgba(52, 211, 153, 0.05);
+
+  font-size: 10px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.dashboard-action-button:hover {
+  background: rgba(52, 211, 153, 0.1);
+
+  border-color: rgba(52, 211, 153, 0.35);
+}
+
+
+/* =========================================================
+   CONTINUE LEARNING
+========================================================= */
+
+.continue-learning {
+  padding: 22px;
+
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: 16px;
+
+  background: rgba(15, 23, 42, 0.55);
+
+  backdrop-filter: blur(13px);
+}
+
+.learning-topic {
+  margin: 0;
+
+  color: #f8fafc;
+
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.learning-description {
+  margin: 5px 0 15px;
+
+  color: #64748b;
+
+  font-size: 10px;
+}
+
+.learning-progress-track {
+  width: 100%;
+  height: 5px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background: rgba(148, 163, 184, 0.09);
+}
+
+.learning-progress-bar {
+  width: 50%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: #34d399;
+}
+
+.learning-progress-info {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 7px;
+
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.learning-progress-info strong {
+  color: #94a3b8;
+}
+
+
+/* =========================================================
+   BOTTOM GRID
+========================================================= */
+
+.dashboard-bottom {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1.25fr) minmax(290px, 0.75fr);
+
+  gap: 18px;
+
+  margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   RECENT ACTIVITY
+========================================================= */
+
+.recent-activity {
+  padding: 22px;
+}
+
+.recent-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-item {
+  display: grid;
+
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 60px;
+
+  border-top: 1px solid rgba(148, 163, 184, 0.07);
+}
+
+.recent-item:first-child {
+  border-top: 0;
+}
+
+.recent-status {
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.recent-status.accepted {
+  color: #34d399;
+
+  background: rgba(52, 211, 153, 0.09);
+}
+
+.recent-status.failed {
+  color: #f87171;
+
+  background: rgba(248, 113, 113, 0.09);
+}
+
+.recent-problem {
+  min-width: 0;
+}
+
+.recent-problem strong {
+  display: block;
+
+  overflow: hidden;
+
+  color: #e2e8f0;
+
+  font-size: 11px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-problem span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.recent-time {
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+
+/* =========================================================
+   COLLEGE STANDING
+========================================================= */
+
+.college-standing {
+  padding: 22px;
+}
+
+.current-rank {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin-bottom: 19px;
+
+  padding: 14px;
+
+  border: 1px solid rgba(52, 211, 153, 0.14);
+  border-radius: 11px;
+
+  background: rgba(52, 211, 153, 0.04);
+}
+
+.current-rank-number {
+  color: #34d399;
+
+  font-size: 30px;
+  font-weight: 850;
+
+  line-height: 1;
+}
+
+.current-rank-info {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.current-rank-info strong {
+  color: #e2e8f0;
+
+  font-size: 11px;
+}
+
+.current-rank-info span {
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+.rank-change {
+  margin-left: auto;
+
+  color: #34d399;
+
+  font-size: 9px;
+  font-weight: 700;
+}
+
+
+/* Standing list */
+
+.standing-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.standing-item {
+  display: grid;
+
+  grid-template-columns: 28px 28px minmax(0, 1fr) auto;
+
+  align-items: center;
+
+  gap: 8px;
+
+  min-height: 42px;
+
+  border-top: 1px solid rgba(148, 163, 184, 0.07);
+}
+
+.standing-rank {
+  color: #64748b;
+
+  font-size: 9px;
+
+  text-align: center;
+}
+
+.standing-avatar {
+  width: 27px;
+  height: 27px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  color: #94a3b8;
+
+  background: rgba(148, 163, 184, 0.08);
+
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.standing-name {
+  overflow: hidden;
+
+  color: #cbd5e1;
+
+  font-size: 10px;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.standing-solved {
+  color: #64748b;
+
+  font-size: 9px;
+}
+
+
+/* Current user */
+
+.standing-item.current-user {
+  margin: 3px -7px;
+
+  padding: 0 7px;
+
+  border-radius: 7px;
+
+  background: rgba(52, 211, 153, 0.06);
+}
+
+.standing-item.current-user .standing-name {
+  color: #34d399;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   EMPTY / LOADING STATES
+========================================================= */
+
+.dashboard-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 160px;
+
+  color: #64748b;
+
+  font-size: 11px;
+  text-align: center;
+}
+
+.dashboard-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 400px;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-side {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 680px) {
+
+  .dashboard-page {
+    padding: 28px 15px 55px;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    margin-bottom: 24px;
+  }
+
+  .dashboard-streak {
+    width: 100%;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 9px;
+  }
+
+  .stat-card {
+    min-height: 90px;
+
+    padding: 15px;
+  }
+
+  .stat-card-value {
+    font-size: 23px;
+  }
+
+  .dashboard-side {
+    display: flex;
+  }
+
+  .dashboard-card-header {
+    margin-bottom: 17px;
+  }
+
+  .activity-card,
+  .daily-goal,
+  .continue-learning,
+  .recent-activity,
+  .college-standing {
+    padding: 18px;
+  }
+
+  .activity-heatmap {
+    gap: 3px;
+
+    min-width: 580px;
+  }
+
+  .recent-item {
+    grid-template-columns: 29px minmax(0, 1fr) auto;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — SMALL MOBILE
+========================================================= */
+
+@media (max-width: 430px) {
+
+  .dashboard-title {
+    font-size: 26px;
+  }
+
+  .dashboard-subtitle {
+    font-size: 12px;
+  }
+
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    min-height: 76px;
+  }
+
+  .stat-card-meta {
+    display: none;
+  }
+
+  .activity-summary {
+    display: none;
+  }
+
+  .dashboard-card-title {
+    font-size: 15px;
+  }
+
+  .recent-time {
+    display: none;
+  }
+
+  .current-rank-number {
+    font-size: 26px;
+  }
+}
