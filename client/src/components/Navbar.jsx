@@ -1,32 +1,272 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 
 export default function Navbar() {
   const { user, logout } = useAuth()
 
+  const [careerOpen, setCareerOpen] = useState(false)
+  const [communityOpen, setCommunityOpen] = useState(false)
+
+  const closeMenus = () => {
+    setCareerOpen(false)
+    setCommunityOpen(false)
+  }
+
   return (
-    <nav className="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-      <Link to="/" className="font-bold text-lg">Coding Club J.N.N</Link>
-      <div className="flex gap-5 items-center text-sm">
-        <Link to="/">Home</Link>
-        <Link to="/roadmap">Roadmap</Link>
-        <Link to="/about">About</Link>
-        {user ? (
-          <>
-            <Link to="/dashboard">Dashboard</Link>
-            <button onClick={logout} className="bg-slate-700 px-3 py-1 rounded">
-              Logout
+    <header className="site-navbar">
+      <nav className="navbar-inner">
+
+        {/* =====================================================
+            LOGO
+        ====================================================== */}
+        <Link
+          to="/"
+          onClick={closeMenus}
+          className="navbar-logo"
+        >
+          <span className="navbar-logo-symbol">
+            &lt;/&gt;
+          </span>
+
+          <span>
+            Coding Club J.N.N
+          </span>
+        </Link>
+
+
+        {/* =====================================================
+            NAVIGATION
+        ====================================================== */}
+        <div className="navbar-links">
+
+          {/* HOME */}
+          <Link
+            to="/"
+            onClick={closeMenus}
+            className="navbar-link"
+          >
+            Home
+          </Link>
+
+
+          {/* =================================================
+              CAREER TRACKS
+          ================================================== */}
+          <div className="navbar-dropdown">
+
+            <button
+              type="button"
+              onClick={() => {
+                setCareerOpen(!careerOpen)
+                setCommunityOpen(false)
+              }}
+              className="navbar-link navbar-dropdown-button"
+            >
+              <span>Career Tracks</span>
+
+              <span
+                className={`navbar-arrow ${
+                  careerOpen ? 'navbar-arrow-open' : ''
+                }`}
+              >
+                ▾
+              </span>
             </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register" className="bg-emerald-600 px-3 py-1 rounded">
-              Register
-            </Link>
-          </>
-        )}
-      </div>
-    </nav>
+
+
+            {careerOpen && (
+              <div className="navbar-menu navbar-menu-career">
+
+                <Link
+                  to="/roadmap"
+                  onClick={closeMenus}
+                  className="navbar-menu-item"
+                >
+                  <div className="navbar-menu-title">
+                    🧩 DSA Roadmap
+                  </div>
+
+                  <div className="navbar-menu-description">
+                    Master Data Structures & Algorithms
+                  </div>
+                </Link>
+
+
+                <Link
+                  to="/roadmap/gate"
+                  onClick={closeMenus}
+                  className="navbar-menu-item"
+                >
+                  <div className="navbar-menu-title">
+                    🎯 GATE Preparation
+                  </div>
+
+                  <div className="navbar-menu-description">
+                    Structured preparation for GATE
+                  </div>
+                </Link>
+
+
+                <Link
+                  to="/roadmap/interview"
+                  onClick={closeMenus}
+                  className="navbar-menu-item"
+                >
+                  <div className="navbar-menu-title">
+                    💼 Interview Preparation
+                  </div>
+
+                  <div className="navbar-menu-description">
+                    Prepare for technical interviews
+                  </div>
+                </Link>
+
+
+                <Link
+                  to="/projects"
+                  onClick={closeMenus}
+                  className="navbar-menu-item"
+                >
+                  <div className="navbar-menu-title">
+                    🚀 Projects by JNN'ians
+                  </div>
+
+                  <div className="navbar-menu-description">
+                    Explore projects built by students
+                  </div>
+                </Link>
+
+              </div>
+            )}
+          </div>
+
+
+          {/* =================================================
+              COMMUNITY
+          ================================================== */}
+          <div className="navbar-dropdown">
+
+            <button
+              type="button"
+              onClick={() => {
+                setCommunityOpen(!communityOpen)
+                setCareerOpen(false)
+              }}
+              className="navbar-link navbar-dropdown-button"
+            >
+              <span>Community</span>
+
+              <span
+                className={`navbar-arrow ${
+                  communityOpen ? 'navbar-arrow-open' : ''
+                }`}
+              >
+                ▾
+              </span>
+            </button>
+
+
+            {communityOpen && (
+              <div className="navbar-menu navbar-menu-community">
+
+                <Link
+                  to="/posts"
+                  onClick={closeMenus}
+                  className="navbar-menu-item navbar-simple-item"
+                >
+                  💬 Posts
+                </Link>
+
+
+                <Link
+                  to="/leaderboard"
+                  onClick={closeMenus}
+                  className="navbar-menu-item navbar-simple-item"
+                >
+                  🏆 Leaderboard
+                </Link>
+
+
+                <Link
+                  to="/student-of-the-week"
+                  onClick={closeMenus}
+                  className="navbar-menu-item navbar-simple-item"
+                >
+                  🌟 Student of the Week
+                </Link>
+
+
+                <Link
+                  to="/events"
+                  onClick={closeMenus}
+                  className="navbar-menu-item navbar-simple-item"
+                >
+                  📢 Events
+                </Link>
+
+              </div>
+            )}
+          </div>
+
+
+          {/* ABOUT */}
+          <Link
+            to="/about"
+            onClick={closeMenus}
+            className="navbar-link"
+          >
+            About
+          </Link>
+
+
+          {/* =================================================
+              AUTHENTICATION
+          ================================================== */}
+          {user ? (
+            <>
+              <Link
+                to="/dashboard"
+                onClick={closeMenus}
+                className="navbar-link"
+              >
+                Dashboard
+              </Link>
+
+              <button
+                type="button"
+                onClick={() => {
+                  closeMenus()
+                  logout()
+                }}
+                className="navbar-button navbar-logout"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                onClick={closeMenus}
+                className="navbar-link"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                onClick={closeMenus}
+                className="navbar-button navbar-join"
+              >
+                Join Us
+              </Link>
+            </>
+          )}
+
+        </div>
+
+      </nav>
+    </header>
   )
 }

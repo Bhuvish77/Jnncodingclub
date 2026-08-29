@@ -1,31 +1,3 @@
-/*export default function About() {
-  return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <h1 className="text-3xl font-bold mb-6">About Coding Club J.N.N</h1>
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Who We Are</h2>
-        <p className="text-gray-700">
-          {/* TODO: Add the club's story here }
-        </p>
-      </section>
-
-      <section className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Why We Started</h2>
-        <p className="text-gray-700">
-          {/* TODO: Add the reason for the club's emergence }
-        </p>
-      </section>
-
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Code of Conduct</h2>
-        <ul className="list-disc list-inside text-gray-700 space-y-1">
-          {/* TODO: Add code of conduct points }
-        </ul>
-      </section>
-    </div>
-  )
-}*/
 import { Link } from "react-router-dom"
 export default function About() {
   return (
