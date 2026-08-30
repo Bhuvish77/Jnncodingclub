@@ -30,7 +30,7 @@ export default function Navbar() {
           </span>
 
           <span>
-            Coding Club J.N.N
+             A R C  
           </span>
         </Link>
 
@@ -94,7 +94,7 @@ export default function Navbar() {
 
 
                 <Link
-                  to="/roadmap/gate"
+                  to="/gate-prep"
                   onClick={closeMenus}
                   className="navbar-menu-item"
                 >

@@ -2218,17 +2218,6 @@ export default function Roadmap() {
                                               <ProblemIcon type="external" />
                                             </button>
                                           </div>
-
-                                          {/* Skip */}
-                                          <button
-                                            className={`rounded-lg px-3 py-1.5 text-[13px] font-medium transition ${
-                                              darkMode
-                                                ? 'bg-slate-700 hover:bg-slate-600 text-slate-300'
-                                                : 'bg-slate-100 hover:bg-slate-200 text-slate-600'
-                                            }`}
-                                          >
-                                            Skip
-                                          </button>
                                         </div>
                                       )
                                     }

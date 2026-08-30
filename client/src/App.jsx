@@ -4,9 +4,11 @@ import Navbar from './components/Navbar.jsx'
 import Home from './pages/Home.jsx'
 import About from './pages/About.jsx'
 import Roadmap from './pages/Roadmap.jsx'
+import GatePrep from './pages/GatePrep.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
+
 
 import AnimatedBackground from './components/AnimatedBackground.jsx'
 
@@ -54,6 +56,10 @@ function App() {
             <Route
               path="/roadmap"
               element={<Roadmap />}
+            />
+            <Route
+            path="/gate-prep"
+            element={<GatePrep />}
             />
 
             <Route
