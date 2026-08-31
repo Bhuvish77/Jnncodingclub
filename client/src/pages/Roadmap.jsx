@@ -1835,7 +1835,14 @@ function ProblemIcon({ type }) {
 }
 
 export default function Roadmap() {
-  const [completed, setCompleted] = useState({})
+  const [completed, setCompleted] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('dsa-roadmap-completed') || '{}')
+    } catch {
+      return {}
+    }
+  })
+
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem('roadmap-theme') === 'dark'
   })
@@ -1851,6 +1858,13 @@ export default function Roadmap() {
       darkMode ? 'dark' : 'light'
     )
   }, [darkMode])
+
+  useEffect(() => {
+    localStorage.setItem(
+      'dsa-roadmap-completed',
+      JSON.stringify(completed)
+    )
+  }, [completed])
 
   const toggleSection = (name) => {
     setOpenSections((prev) => ({
@@ -1880,13 +1894,132 @@ export default function Roadmap() {
   const solvedProblems =
     Object.values(completed).filter(Boolean).length
 
+  // The first topic containing an unsolved problem is the user's
+  // current position on the roadmap. Once a topic is fully solved,
+  // the tracker automatically moves to the next topic.
+  const currentTopicIndex = roadmapData.findIndex((section) =>
+    section.groups.some((group) =>
+      group.problems.some((problem) => !completed[problem.title])
+    )
+  )
+
+  const currentTopic =
+    currentTopicIndex >= 0
+      ? roadmapData[currentTopicIndex].title
+      : 'DSA Mastery Complete'
+
+  const getSectionProgress = (section) => {
+    const total = section.groups.reduce(
+      (sum, group) => sum + group.problems.length,
+      0
+    )
+
+    const solved = section.groups.reduce(
+      (sum, group) =>
+        sum +
+        group.problems.filter((problem) => completed[problem.title]).length,
+      0
+    )
+
+    return { solved, total }
+  }
+
+  const scrollToTopic = (title) => {
+    document
+      .getElementById(`dsa-topic-${title}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
-        darkMode ? 'bg-slate-950' : 'bg-white'
+        darkMode ? 'bg-slate-950/95' : 'bg-white/95'
       }`}
     >
-      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-8">
+
+        {/* ================= DSA INTRODUCTION ================= */}
+        <section
+          className={`mb-8 rounded-[24px] border p-6 sm:p-8 shadow-sm transition-all duration-300 ${
+            darkMode
+              ? 'border-slate-700 bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950/30'
+              : 'border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50'
+          }`}
+        >
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-blue-500">
+              🧠 DSA Mastery Roadmap
+            </div>
+
+            <h1
+              className={`mt-4 text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}
+            >
+              Master Data Structures & Algorithms
+            </h1>
+
+            <p
+              className={`mt-4 max-w-3xl text-[16px] leading-7 ${
+                darkMode ? 'text-slate-300' : 'text-slate-600'
+              }`}
+            >
+              DSA is the foundation of efficient problem solving. This roadmap
+              takes you from programming fundamentals through arrays, linked
+              lists, trees, graphs, dynamic programming and advanced techniques.
+              The goal is not to finish a list quickly — it is to understand the
+              patterns well enough to solve new problems independently.
+            </p>
+
+            <div className="mt-6 grid gap-3 sm:grid-cols-3">
+              {[
+                ['01', 'Learn the concept', 'Understand the data structure or technique before coding.'],
+                ['02', 'Solve the problems', 'Start simple, identify patterns, then increase difficulty.'],
+                ['03', 'Review & repeat', 'Revisit mistakes and solve similar problems without help.'],
+              ].map(([number, title, description]) => (
+                <div
+                  key={number}
+                  className={`rounded-2xl border p-4 ${
+                    darkMode
+                      ? 'border-slate-700 bg-slate-900/70'
+                      : 'border-slate-200 bg-white/80'
+                  }`}
+                >
+                  <div className="text-xs font-bold text-blue-500">{number}</div>
+                  <h2
+                    className={`mt-1 font-bold ${
+                      darkMode ? 'text-slate-100' : 'text-slate-800'
+                    }`}
+                  >
+                    {title}
+                  </h2>
+                  <p
+                    className={`mt-1 text-sm leading-5 ${
+                      darkMode ? 'text-slate-400' : 'text-slate-500'
+                    }`}
+                  >
+                    {description}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div
+              className={`mt-5 rounded-2xl border p-4 ${
+                darkMode
+                  ? 'border-blue-900/60 bg-blue-950/30 text-blue-200'
+                  : 'border-blue-200 bg-blue-50 text-blue-800'
+              }`}
+            >
+              <p className="text-sm leading-6">
+                <strong>How to use this sheet:</strong> Work through the topics
+                in order. Mark a problem solved only when you can reproduce the
+                solution and explain the approach. Your roadmap tracker will
+                automatically move to the next topic as you complete problems.
+              </p>
+            </div>
+          </div>
+        </section>
 
         {/* ================= THEME TOGGLE ================= */}
         <div className="flex justify-end mb-5">
@@ -1924,8 +2057,30 @@ export default function Roadmap() {
               : 'text-slate-600'
           }`}
         >
-          Enroll to track your progress, earn XP, and unlock
-          achievements.
+          Enroll to track your progress, earn XP, and unlock achievements.
+        </div>
+
+        {/* ================= CURRENT POSITION ================= */}
+        <div
+          className={`mb-6 rounded-2xl border px-5 py-4 transition-all duration-300 ${
+            darkMode
+              ? 'border-blue-800/70 bg-blue-950/30'
+              : 'border-blue-200 bg-blue-50/70'
+          }`}
+        >
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className={`text-xs font-bold uppercase tracking-wider ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                You are currently here
+              </p>
+              <p className={`mt-1 text-lg font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                {currentTopic}
+              </p>
+            </div>
+            <div className={`text-sm ${darkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+              {solvedProblems} / {totalProblems} problems solved
+            </div>
+          </div>
         </div>
 
         <div className="flex items-start gap-6">
@@ -1951,7 +2106,8 @@ export default function Roadmap() {
               return (
                 <section
                   key={section.title}
-                  className="mb-8"
+                  id={`dsa-topic-${section.title}`}
+                  className="mb-8 scroll-mt-28"
                 >
                   {/* Main section header */}
                   <div
@@ -2218,6 +2374,7 @@ export default function Roadmap() {
                                               <ProblemIcon type="external" />
                                             </button>
                                           </div>
+
                                         </div>
                                       )
                                     }
@@ -2295,39 +2452,86 @@ export default function Roadmap() {
                 />
 
                 <div className="space-y-8">
-                  {roadmapCategories.map(
-                    (category, index) => (
+                  {roadmapCategories.map((category, index) => {
+                    const matchingSection = roadmapData.find(
+                      (section) => section.title === category.title ||
+                        (category.title === 'String' && section.title === 'Strings') ||
+                        (category.title === 'Graph - Data structure' && section.title === 'Graph - Data Structure') ||
+                        (category.title === 'Backtracking & Recursion Based Problem - Technique' && section.title === 'Backtracking and Recursion based problems') ||
+                        (category.title === 'Greedy - Technique' && section.title === 'Greedy-Technique') ||
+                        (category.title === 'Heaps- Data structure' && section.title === 'Heap') ||
+                        (category.title === 'Trie - Data structure' && section.title === 'Trie')
+                    )
+
+                    const matchingIndex = matchingSection
+                      ? roadmapData.indexOf(matchingSection)
+                      : -1
+                    const isCurrent = matchingIndex === currentTopicIndex
+                    const isCompletedTopic =
+                      matchingSection &&
+                      getSectionProgress(matchingSection).total > 0 &&
+                      getSectionProgress(matchingSection).solved ===
+                        getSectionProgress(matchingSection).total
+
+                    return (
                       <div
                         key={category.title}
                         className="relative"
                       >
-                        {/* Dot */}
+                        {/* Active progress dot */}
                         <div
-                          className={`absolute -left-[27px] top-1.5 w-[18px] h-[18px] rounded-full flex items-center justify-center ${
-                            darkMode
-                              ? 'bg-slate-800'
-                              : 'bg-blue-100'
+                          className={`absolute -left-[27px] top-1.5 w-[18px] h-[18px] rounded-full flex items-center justify-center transition-all duration-300 ${
+                            isCurrent
+                              ? darkMode
+                                ? 'bg-blue-500/20 ring-4 ring-blue-500/10'
+                                : 'bg-blue-100 ring-4 ring-blue-100/70'
+                              : darkMode
+                                ? 'bg-slate-800'
+                                : 'bg-blue-100'
                           }`}
                         >
                           <div
-                            className={`w-[10px] h-[10px] rounded-full ${
-                              index === 0
-                                ? 'bg-purple-500'
-                                : 'bg-blue-500'
+                            className={`w-[10px] h-[10px] rounded-full transition-all duration-300 ${
+                              isCompletedTopic
+                                ? 'bg-green-500'
+                                : isCurrent
+                                  ? 'bg-blue-500 animate-pulse'
+                                  : index === 0
+                                    ? 'bg-purple-500'
+                                    : 'bg-blue-500'
                             }`}
                           />
                         </div>
 
-                        <button className="text-left w-full group">
-                          <h3
-                            className={`text-[17px] leading-6 font-semibold transition ${
-                              darkMode
-                                ? 'text-slate-100 group-hover:text-blue-400'
-                                : 'text-slate-800 group-hover:text-blue-600'
-                            }`}
-                          >
-                            {category.title}
-                          </h3>
+                        <button
+                          type="button"
+                          onClick={() => matchingSection && scrollToTopic(matchingSection.title)}
+                          className="text-left w-full group"
+                        >
+                          <div className="flex items-center gap-2">
+                            <h3
+                              className={`text-[17px] leading-6 font-semibold transition ${
+                                isCurrent
+                                  ? darkMode
+                                    ? 'text-blue-400'
+                                    : 'text-blue-600'
+                                  : isCompletedTopic
+                                    ? darkMode
+                                      ? 'text-green-400'
+                                      : 'text-green-700'
+                                    : darkMode
+                                      ? 'text-slate-100 group-hover:text-blue-400'
+                                      : 'text-slate-800 group-hover:text-blue-600'
+                              }`}
+                            >
+                              {category.title}
+                            </h3>
+                            {isCurrent && (
+                              <span className="rounded-full bg-blue-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                                You are here
+                              </span>
+                            )}
+                          </div>
 
                           <p
                             className={`mt-0.5 text-[14px] ${
@@ -2336,12 +2540,14 @@ export default function Roadmap() {
                                 : 'text-slate-500'
                             }`}
                           >
-                            {category.count}
+                            {matchingSection
+                              ? `${getSectionProgress(matchingSection).solved}/${getSectionProgress(matchingSection).total} Problems solved`
+                              : category.count}
                           </p>
                         </button>
                       </div>
                     )
-                  )}
+                  })}
                 </div>
               </div>
             </div>
